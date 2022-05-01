@@ -1,0 +1,22 @@
+﻿  Building 'MouseLikeTouchPad_Filter' with toolset 'WindowsUserModeDriver10.0' and the 'Universal' target platform.
+  Stamping x64\Release\MouseLikeTouchPad_Filter.inf
+  Stamping [Version] section with DriverVer=04/27/2022,21.6.13.958
+D:\MouseLikeTouchPad_Filter\MouseLikeTouchPad_Filter.inf(39-39): warning 2083: Section [mshidumdf.addservice] not referenced or used.
+  Device.c
+  Driver.c
+  Queue.c
+  正在生成代码...
+    正在创建库 D:\MouseLikeTouchPad_Filter\x64\Release\MouseLikeTouchPad_Filter.lib 和对象 D:\MouseLikeTouchPad_Filter\x64\Release\MouseLikeTouchPad_Filter.exp
+  MouseLikeTouchPad_Filter.vcxproj -> D:\MouseLikeTouchPad_Filter\x64\Release\MouseLikeTouchPad_Filter.dll
+  Driver is 'Universal'.
+  ........................
+  Signability test complete.
+  
+  Errors:
+  None
+  
+  Warnings:
+  None
+  
+  Catalog generation complete.
+  D:\MouseLikeTouchPad_Filter\x64\Release\MouseLikeTouchPad_Filter\mouseliketouchpad_filter.cat
