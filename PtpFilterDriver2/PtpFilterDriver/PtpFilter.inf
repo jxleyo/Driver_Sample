@@ -1,0 +1,78 @@
+[Version]
+Signature = "$WINDOWS NT$"
+Class = HIDClass
+ClassGuid = {745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+Provider = %ManufacturerName%
+CatalogFile = PtpFilter.cat
+PnpLockdown=1	
+DriverVer = 04/22/2022,1.1.1.1
+
+[DestinationDirs]
+DefaultDestDir = 12
+PtpUmDrivers_Dir = 12,UMDF
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[SourceDisksNames]
+99 = %DiskName%,,,""
+
+[SourceDisksFiles]
+PtpFilter.sys  = 99,,
+
+[Manufacturer]
+%ManufacturerName%=MouseStd,NTamd64...1
+
+[MouseStd.NTamd64...1]
+%PtpFilter.DeviceDesc%=PtpFilter_Device,  HID_DEVICE_UP:000D_U:0005
+
+
+[PtpFilter_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+PtpFilter.sys
+
+[PtpFilter_Device.NT.HW]
+AddReg=PtpFilter_Device.AddReg, PtpFilter_Device_Configuration.AddReg
+
+
+[PtpFilter_Device.AddReg]
+HKR,,"LowerFilters",0x00010008,"PtpFilter"
+;HKR,,"UpperFilters",0x00010008,"PtpFilter"
+
+
+[PtpFilter_Device_Configuration.AddReg]
+HKR,,"EnhancedPowerManagementEnabled",0x00010001,1
+HKR,,"DeviceResetNotificationEnabled",0x00010001,1
+HKR,,"LegacyTouchScaling",0x00010001,0
+
+
+;-------------- Service installation
+[PtpFilter_Device.NT.Services]
+AddService = PtpFilter,0x00000002, PtpFilter_Service_Inst
+
+
+; -------------- PtpFilter driver install sections
+[PtpFilter_Service_Inst]
+DisplayName    = %PtpFilter.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+;ErrorControl   = 0                  ; SERVICE_ERROR_IGNORE
+ServiceBinary  = %12%\PtpFilter.sys
+LoadOrderGroup = Extended Base
+
+[PtpFilter_Device.NT.Wdf]
+KmdfService =  PtpFilter, PtpFilter_wdfsect
+
+[PtpFilter_wdfsect]
+KmdfLibraryVersion = 1.15
+;KmdfLibraryVersion=$KMDFVERSION$ ;inx文件格式
+
+
+[Strings]
+ManufacturerName = "jxleyo.HRP"
+DiskName = "jxleyo.HRP PtpFilter Driver Installation Disk"
+PtpFilter.DeviceDesc = "PtpFilter Driver"
+PtpFilter.SVCDESC = "PtpFilter Service"
