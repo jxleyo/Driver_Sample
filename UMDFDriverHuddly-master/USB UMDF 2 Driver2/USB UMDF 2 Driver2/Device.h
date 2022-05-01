@@ -1,0 +1,65 @@
+/*++
+
+Module Name:
+
+    device.h
+
+Abstract:
+
+    This file contains the device definitions.
+
+Environment:
+
+    User-mode Driver Framework 2
+
+--*/
+
+EXTERN_C_START
+
+//
+// The device context performs the same job as
+// a WDM device extension in the driver frameworks
+//
+typedef struct _DEVICE_CONTEXT
+{
+    WDFUSBDEVICE					UsbDevice;
+	WDFUSBINTERFACE                 UsbInterface;
+	WDFUSBPIPE                      BulkReadPipe;
+	WDFUSBPIPE                      BulkWritePipe;
+    ULONG PrivateDeviceData;  // just a placeholder
+	ULONG UsbDeviceTraits;
+	//WDFQUEUE                        InterruptMsgQueue; //The queue being used
+	WDFMEMORY                       DeviceNameMemory;
+	PCWSTR                          DeviceName;
+	WDFMEMORY                       LocationMemory;
+	PCWSTR                          Location;
+} DEVICE_CONTEXT, *PDEVICE_CONTEXT;
+
+//
+// This macro will generate an inline function called DeviceGetContext
+// which will be used to get a pointer to the device context memory
+// in a type safe manner.
+//
+WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(DEVICE_CONTEXT, DeviceGetContext)
+
+//
+// Function to initialize the device's queues and callbacks
+//
+NTSTATUS
+USBUMDF2Driver2CreateDevice(
+    _Inout_ PWDFDEVICE_INIT DeviceInit
+    );
+
+//
+// Function to select the device's USB configuration and get a WDFUSBDEVICE
+// handle
+//
+EVT_WDF_DEVICE_PREPARE_HARDWARE USBUMDF2Driver2EvtDevicePrepareHardware;
+
+_IRQL_requires_(PASSIVE_LEVEL)
+NTSTATUS
+SelectInterfaces(
+	_In_ WDFDEVICE Device
+);
+
+EXTERN_C_END
