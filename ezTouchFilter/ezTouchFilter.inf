@@ -1,0 +1,220 @@
+[Version]
+Signature="$Windows NT$"
+Class=HIDClass
+ClassGUID={745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+Provider=%Provider%
+DriverVer = 01/29/2018,1.0.0.6
+CatalogFile=KmdfSamples.cat
+
+[DestinationDirs]
+DefaultDestDir = 12 ; DIRID_DRIVERS
+EzTouchFilter_Inst_CoInstaller_CopyFiles = 11
+
+[ControlFlags]
+; We don't want our device to be installable via the non-PnP hardware dialogs
+ExcludeFromSelect = *
+
+; Manufacturer Section
+; ---------------------------------------------------------
+[Manufacturer]
+%ShinyThings%=ShinyThingsMfg,NTamd64
+
+; Devices Section
+; ---------------------------------------------------------
+[ShinyThingsMfg.NTamd64]
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_0732
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_22A5
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_22DF
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_22E0
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_22E1
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_22E2
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B2
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B3
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B4
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B5
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B6
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B7
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B8
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24B9
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24BA
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24BB
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24BC
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24BD
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24BE
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24BF
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24CC
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24CE
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24DA
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24DB
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24E2
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24E3
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24E4
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24E5
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24E6
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24E7
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_24E8
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2514
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2515
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2516
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2519
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2546
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2547
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_254B
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_254C
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_254D
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_254E
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2567  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2568  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2579  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_257A  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_257B  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_257C  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_257D  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_257E  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_257F  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2590  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2591  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2593  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2594  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2595  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2596  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2597  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2598  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_2599  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_259A  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_259B  ; HP
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_259C  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_259D  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_259E  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_259F  ; HP 
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25A3
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25A9  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25BA  ; HP Steeler
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25BE  ; HP Steeler
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25BF  ; HP Baystars
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25AA  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25D8  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25D9  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25DA  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25DB  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25DC  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25DD  ; HP Sphinx
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25E0	; HP Carp 13(FHD IVO)
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25E1	; HP Carp 13(UHD INX)
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25E2	; HP Carp 13(FHD IVO)
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25E3	; HP Carp 13(UHD INX)
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25EF	; HP Chimera 12.3
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25F0	; HP Chimera 12.3
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25F1	; HP Chimera 12.3
+%ACPI\VEN_ELAN&DEV_0732.DeviceDesc%=EzTouchFilter_Inst, ACPI\VEN_ELAN&DEV_25F2	; HP Chimera 12.3
+
+
+%PCI\VEN_8086&DEV_9D3E.DeviceDesc%=EzTouchFilter_Inst, PCI\VEN_8086&DEV_9D3E
+
+
+; Install Section
+; ---------------------------------------------------------
+[EzTouchFilter_Inst.NT]
+Include = HIDI2C.INF
+Needs = HIDI2C_Device.NT
+CopyFiles = EzTouchFilter_Inst_CopyFiles.NT
+
+[EzTouchFilter_Inst.NT.HW]
+Include = HIDI2C.INF
+Needs = HIDI2C_Device.NT.HW
+AddReg = EzTouchFilter_Inst_HWAddReg.NT.HW
+
+[EzTouchFilter_Inst_HWAddReg.NT.HW]
+HKR,,"UpperFilters",0x00010000,"ezTouchFilter"
+
+[EzTouchFilter_Inst.NT.Services]
+Include = HIDI2C.INF
+Needs = HIDI2C_Device.NT.Services
+AddService = EzTouchFilter, , EzTouchFilter_Service_Inst
+
+; ---------------------------------------------------------
+
+; ---------------------------------------------------------
+[EzTouchFilter_Inst_CopyFiles.NT]
+EzTouchFilter.sys
+
+[EzTouchFilter_Service_Inst]
+DisplayName    = %EzTouchFilter.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\EzTouchFilter.sys
+
+; Source Media Section
+; ---------------------------------------------------------
+[SourceDisksNames]
+1 = %DiskName%
+
+[SourceDisksFiles]
+EzTouchFilter.sys = 1
+;
+
+
+;
+;--- EzTouchFilter_Inst WDF Coinstaller installation ------
+;
+
+[EzTouchFilter_Inst.NT.CoInstallers]
+AddReg=EzTouchFilter_Inst_CoInstaller_AddReg
+CopyFiles=EzTouchFilter_Inst_CoInstaller_CopyFiles
+
+[EzTouchFilter_Inst_CoInstaller_AddReg]
+;
+
+
+[EzTouchFilter_Inst_CoInstaller_CopyFiles]
+;
+
+
+[EzTouchFilter_Inst.NT.Wdf]
+KmdfService = EzTouchFilter, EzTouchFilter_wdfsect
+[EzTouchFilter_wdfsect]
+KmdfLibraryVersion = 1.15
+
+
+; Strings Section
+; ---------------------------------------------------------
+[Strings]
+; Provider names
+Provider = "ELAN Provider"
+
+; Mfg names
+ShinyThings = "ELAN"
+
+; Service names
+EzTouchFilter.SvcDesc = "EzTouchFilter Service"
+
+; Media names
+DiskName = "EzTouchFilter Driver Disk"
+
+; HID device IDs
+USB\VID_04F3&PID_21CE.DeviceDesc = "ELAN EzTouchFilter"
+USB\VID_04F3&PID_0732.DeviceDesc = "ELAN EzTouchFilter"
+ACPI\VEN_ELAN&DEV_1200.DeviceDesc = "ELAN EzTouchFilter"
+ACPI\VEN_ELAN&DEV_1001.DeviceDesc = "ELAN EzTouchFilter"
+ACPI\VEN_ELAN&DEV_24CC.DeviceDesc = "ELAN EzTouchFilter"
+ACPI\VEN_ELAN&DEV_0732.DeviceDesc = "ELAN EzTouchFilter"
+ACPI\VEN_ELAN&DEV_22A5.DeviceDesc = "ELAN EzTouchFilter"
+ACPI\VEN_ELAN&DEV_25A3.DeviceDesc = "ELAN EzTouchFilter"
+ACPI\VEN_ELAN&DEV_2595.DeviceDesc = "ELAN EzTouchFilter"
+
+PCI\VEN_8086&DEV_9D3E.DeviceDesc = "ELAN EzTouchFilter"
+
+; Standard defs
+SPSVCINST_TAGTOFRONT  = 0x00000001
+SPSVCINST_ASSOCSERVICE= 0x00000002
+SERVICE_KERNEL_DRIVER = 1
+SERVICE_BOOT_START    = 0
+SERVICE_SYSTEM_START  = 1
+SERVICE_AUTO_START    = 2
+SERVICE_ERROR_NORMAL  = 1
+SERVICE_ERROR_IGNORE  = 0
+REG_EXPAND_SZ         = 0x00020000
+REG_DWORD             = 0x00010001
+REG_SZ                = 0x00000000
+
