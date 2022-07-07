@@ -1552,7 +1552,7 @@ __int64 __fastcall sub_140003270(__int64 a1, unsigned __int8 a2, unsigned int a3
 // 14000A0C8: using guessed type __int64 (__fastcall *qword_14000A0C8)(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
 
 //----- (00000001400033B0) ----------------------------------------------------
-__int64 __fastcall sub_1400033B0(__int64 a1, unsigned int a2, const void *a3, size_t a4)
+__int64 __fastcall sub_1400033B0(__int64 a1, unsigned int a2, const void *a3, size_t a4)//ptpfilterCompleteRequestWithData(Request_a1, NTSTATUS_code_a2, sourceBuffer_a3 , size_a4);//&IoControlCode_a3 =sourceBuffer_a3可转变为缓冲地址？？
 {
   int v8; // ebx
   int v10; // [rsp+28h] [rbp-20h]
@@ -1560,7 +1560,7 @@ __int64 __fastcall sub_1400033B0(__int64 a1, unsigned int a2, const void *a3, si
   size_t Size[2]; // [rsp+38h] [rbp-10h] BYREF
 
   v8 = (*(__int64 (__fastcall **)(__int64, __int64, size_t, void **, size_t *))(qword_14000A118 + 2160))(
-         qword_14000A110,
+         qword_14000A110, //v8= WdfRequestRetrieveOutputBuffer(Request, MinimumRequiredLength, PVOID* outBuffer,size_t* Length);
          a1,
          a4,
          &Dst,
@@ -1570,7 +1570,7 @@ __int64 __fastcall sub_1400033B0(__int64 a1, unsigned int a2, const void *a3, si
     memset(Dst, 0, Size[0]);
     memmove(Dst, a3, a4);
     (*(void (__fastcall **)(__int64, __int64, _QWORD, size_t))(qword_14000A118 + 2120))(qword_14000A110, a1, a2, a4);
-  }
+  } //void WdfRequestCompleteWithInformation(Request_a1, NTSTATUS_code_a2, ULONG_PTR Information_size_a4)
   else
   {
     DbgPrint("[PTP] %s : ", "CompleteRequestWithData");
@@ -1586,6 +1586,7 @@ __int64 __fastcall sub_1400033B0(__int64 a1, unsigned int a2, const void *a3, si
 
 //----- (00000001400034B8) ----------------------------------------------------
 __int64 __fastcall sub_1400034B8(const void *a1, const void *a2, unsigned int a3, __int64 a4, int a5)
+	//void PTPFilterEvtIoDeviceControl(IN WDFQUEUE Queue_a1, IN WDFREQUEST Request_a2,  IN size_t  OutputBufferLength_a3, IN size_t InputBufferLength_a4, IN ULONG IoControlCode_a5 )
 {
   int v9; // esi
   __int64 v10; // rax
@@ -1627,7 +1628,7 @@ __int64 __fastcall sub_1400034B8(const void *a1, const void *a2, unsigned int a3
   if ( !v13 )
   {
     if ( (*(int (__fastcall **)(__int64, const void *, __int64, __m128i **, __int64 *))(qword_14000A118 + 2152))(
-           qword_14000A110,
+           qword_14000A110,//WdfRequestRetrieveInputBuffer( _In_WDFREQUEST Request_a2,_In_size_t MinimumRequiredLength, _Outptr_result_bytebuffer_(*Length)PVOID* Buffer,_Out_opt_size_t* Length);
            a2,
            a4,
            &v26,
@@ -1641,7 +1642,7 @@ __int64 __fastcall sub_1400034B8(const void *a1, const void *a2, unsigned int a3
       if ( v21 )
       {
         *((_QWORD *)v12 + 10) = *(__int64 *)((char *)v27.m128i_i64 + 4);
-        *((_DWORD *)v12 + 22) = v27.m128i_i32[3] * v27.m128i_i32[3];
+        *((_DWORD *)v12 + 22) = v27.m128i_i32[3] * v27.m128i_i32[3];//ResetNotificationQueue
         *((_DWORD *)v12 + 23) = v20 * v20;
       }
       DbgPrint("[PTP] %s : ", "PTPFilterEvtIoDeviceControl");
@@ -1651,9 +1652,9 @@ __int64 __fastcall sub_1400034B8(const void *a1, const void *a2, unsigned int a3
       LODWORD(v24) = v22;
       sub_1400019C0((__int64)DeviceObject->DeviceExtension, 0, 5u, 0x10u, (__int64)&unk_140009180, v24);
     }
-    LOWORD(a5) = *((_WORD *)v12 + 440);
-    HIWORD(a5) = *((_WORD *)v12 + 442);
-    v17 = sub_1400033B0((__int64)a2, 0, &a5, 4ui64);
+    LOWORD(a5) = *((_WORD *)v12 + 440);//=pDeviceContext_v12->Physical_Length_X
+    HIWORD(a5) = *((_WORD *)v12 + 442);//=pDeviceContext_v12->Physical_Length_Y
+    v17 = sub_1400033B0((__int64)a2, 0, &a5, 4ui64);//result = ptpfilterCompleteRequestWithData(Request_a2, STATUS_SUCCESS，&IoControlCode_a5 , 4);//&IoControlCode_a5=sourceBuffer_a5可转变为缓冲地址？
 LABEL_19:
     v16 = v17;
     goto LABEL_20;
@@ -1670,7 +1671,7 @@ LABEL_19:
     *((_DWORD *)v12 + 1) = 2;
 LABEL_22:
     (*(void (__fastcall **)(__int64, const void *, __int64, _QWORD))(qword_14000A118 + 2120))(
-      qword_14000A110,
+      qword_14000A110,//void WdfRequestCompleteWithInformation(Request_a2, NTSTATUS_code, ULONG_PTR Information_size)
       a2,
       v19,
       0i64);
@@ -1694,9 +1695,9 @@ LABEL_22:
     DbgPrint("\n");
     sub_14000129C((__int64)DeviceObject->DeviceExtension, 0, 5u, 0xFu, (__int64)&unk_140009180);
     v17 = (*(__int64 (__fastcall **)(__int64, const void *, _QWORD))(qword_14000A118 + 2248))(
-            qword_14000A110,
+            qword_14000A110,//status_result = WdfRequestForwardToIoQueue(
             a2,
-            *((_QWORD *)v12 + 4));
+            *((_QWORD *)v12 + 4));//pDeviceContext_v12->ResetNotificationQueue
     goto LABEL_19;
   }
   DbgPrint("[PTP] %s : ", "PTPFilterEvtIoDeviceControl");
@@ -1705,7 +1706,7 @@ LABEL_22:
   LODWORD(v24) = *v12;
   sub_1400019C0((__int64)DeviceObject->DeviceExtension, 0, 5u, 0x12u, (__int64)&unk_140009180, v24);
   v16 = (*(__int64 (__fastcall **)(__int64, const void *, __int64, __m128i **, __int64 *))(qword_14000A118 + 2152))(
-          qword_14000A110,
+          qword_14000A110,//v16 = WdfRequestRetrieveInputBuffer( _In_WDFREQUEST Request_a2,_In_size_t MinimumRequiredLength, _Outptr_result_bytebuffer_(*Length)PVOID* Buffer,_Out_opt_size_t* Length);
           a2,
           a4,
           &v26,
@@ -1721,7 +1722,7 @@ LABEL_21:
     v19 = (unsigned int)v16;
     goto LABEL_22;
   }
-  if ( v25 == 4 )
+  if ( v25 == 4 ) //Length_v25==4
   {
     v18 = v26->m128i_i32[0];
     if ( *v12 )
@@ -1735,7 +1736,7 @@ LABEL_21:
     }
   }
   (*(void (__fastcall **)(__int64, const void *, _QWORD, _QWORD))(qword_14000A118 + 2120))(
-    qword_14000A110,
+    qword_14000A110,//void WdfRequestCompleteWithInformation(Request_a2, NTSTATUS_code, ULONG_PTR Information_size)
     a2,
     (unsigned int)v16,
     0i64);
@@ -1754,7 +1755,7 @@ LABEL_23:
 // 14000A118: using guessed type __int64 qword_14000A118;
 
 //----- (00000001400039F0) ----------------------------------------------------
-__int64 __fastcall sub_1400039F0(const void *a1, const void *a2)
+__int64 __fastcall sub_1400039F0(const void *a1, const void *a2)//PTPFilterEvtIoRead(_In_ WDFQUEUE Queue_a1, _In_ WDFREQUEST Request_a2, _In_size_t Length)
 {
   __int64 v4; // rax
   __int64 v5; // rsi
@@ -1767,17 +1768,18 @@ __int64 __fastcall sub_1400039F0(const void *a1, const void *a2)
   DbgPrint("Entry : Queue 0x%p, Request 0x%p", a1, a2);
   DbgPrint("\n");
   sub_140003DF8((__int64)DeviceObject->DeviceExtension, 4u, 5u, 0x17u, (__int64)&unk_140009180, a1, a2);
-  v4 = (*(__int64 (__fastcall **)(__int64, const void *))(qword_14000A118 + 1256))(qword_14000A110, a1);
+  v4 = (*(__int64 (__fastcall **)(__int64, const void *))(qword_14000A118 + 1256))(qword_14000A110, a1);//WDFDEVICE Device_v4 = WdfIoQueueGetDevice(Queue_a1);
   v5 = (*(__int64 (__fastcall **)(__int64, __int64, void *))(qword_14000A118 + 1616))(
          qword_14000A110,
          v4,
-         off_14000A018);
-  v10 = 0;
-  (*(void (__fastcall **)(__int64, _QWORD))(qword_14000A118 + 2528))(qword_14000A110, *(_QWORD *)(v5 + 912));
+         off_14000A018));//pDeviceContext_v5 = GetDeviceContext(Device_v4);
+  v10 = 0;//bRequestForwardFlag=FALSE;
+  (*(void (__fastcall **)(__int64, _QWORD))(qword_14000A118 + 2528))(qword_14000A110, *(_QWORD *)(v5 + 912));//WdfSpinLockAcquire (pDeviceContext_v5->ReadLoopSpinLock_912);
   v6 = sub_1400040A4(v5, (__int64)a2, (__int64)sub_1400053F0);
+  //status_v6=PTPFilterCheckAndStartReadLoop(pDeviceContext_v5,Request_a2,Filter_EvtRequestIoctlCompletionRoutine_sub_1400053F0);
   if ( v6 >= 0 )
   {
-    v6 = sub_140005608(v5, (__int64)a2, &v10);
+    v6 = sub_140005608(v5, (__int64)a2, &v10);//status_v6=PTPFilterProcessCurrentRequest(pDeviceContext_v5,Request_a2,&bRequestForwardFlag);
     if ( v6 >= 0 )
       goto LABEL_6;
     DbgPrint("[PTP] %s : ", "PTPFilterEvtIoRead");
@@ -1795,9 +1797,9 @@ __int64 __fastcall sub_1400039F0(const void *a1, const void *a2)
   LODWORD(v9) = v6;
   sub_1400019C0((__int64)DeviceObject->DeviceExtension, 2u, 5u, v7, (__int64)&unk_140009180, v9);
 LABEL_6:
-  (*(void (__fastcall **)(__int64, _QWORD))(qword_14000A118 + 2536))(qword_14000A110, *(_QWORD *)(v5 + 912));
+  (*(void (__fastcall **)(__int64, _QWORD))(qword_14000A118 + 2536))(qword_14000A110, *(_QWORD *)(v5 + 912));//void WdfSpinLockRelease (pDeviceContext_v5->ReadLoopSpinLock_912);
   if ( !v10 )
-    (*(void (__fastcall **)(__int64, const void *, _QWORD))(qword_14000A118 + 2104))(
+    (*(void (__fastcall **)(__int64, const void *, _QWORD))(qword_14000A118 + 2104))(//void WdfRequestComplete(Request_a2, status_v6);???
       qword_14000A110,
       a2,
       (unsigned int)v6);
@@ -1898,7 +1900,7 @@ __int64 sub_140003F0C(__int64 a1, unsigned __int8 a2, unsigned int a3, unsigned 
 // 14000A0C8: using guessed type __int64 (__fastcall *qword_14000A0C8)(_QWORD, _QWORD, _QWORD, _QWORD, _QWORD);
 
 //----- (00000001400040A4) ----------------------------------------------------
-__int64 __fastcall sub_1400040A4(__int64 a1, __int64 a2, __int64 a3)
+__int64 __fastcall sub_1400040A4(__int64 a1, __int64 a2, __int64 a3)//NTSTATUS PTPFilterCheckAndStartReadLoop(pDeviceContext_a1,Request_a2，CompletionRoutine_a3);
 {
   int v6; // edi
   int v8; // [rsp+28h] [rbp-10h]
@@ -1908,19 +1910,22 @@ __int64 __fastcall sub_1400040A4(__int64 a1, __int64 a2, __int64 a3)
   DbgPrint("\n");
   sub_14000129C((__int64)DeviceObject->DeviceExtension, 4u, 6u, 0xFu, (__int64)&unk_140009190);
   v6 = 0;
-  if ( !*(_BYTE *)(a1 + 908) && !*(_BYTE *)(a1 + 920) )
+  if ( !*(_BYTE *)(a1 + 908) && !*(_BYTE *)(a1 + 920) )//!pDeviceContext_a1->RequestDataAvailableFlag && !pDeviceContext_a1->RequestLength;
   {
-    *(_BYTE *)(a1 + 908) = 1;
+    *(_BYTE *)(a1 + 908) = 1;//pDeviceContext_a1->RequestDataAvailableFlag=TRUE;//可用TRUE
     DbgPrint("[PTP] %s : ", "PTPFilterCheckAndStartReadLoop");
     DbgPrint("Read Loop Started");
     DbgPrint("\n");
     sub_14000129C((__int64)DeviceObject->DeviceExtension, 4u, 6u, 0x10u, (__int64)&unk_140009190);
+    
     *(_QWORD *)(a1 + 24) = *(_QWORD *)(*(_QWORD *)((*(__int64 (__fastcall **)(__int64, __int64))(qword_14000A118 + 2280))(
                                                      qword_14000A110,
                                                      a2)
                                                  + 184)
                                      + 48i64);
-    v6 = sub_14000428C((_QWORD *)a1, a3);
+    //pDeviceContext->ReportBuffer = (PCHAR)((PHID_XFER_PACKET)(WdfRequestWdmGetIrp(Request_a2)->UserBuffer))->reportBuffer;
+    
+    v6 = sub_14000428C((_QWORD *)a1, a3);//status_v6=PTPFilterSendReadRequest(pDeviceContext_a1, CompletionRoutine_a3);
     if ( v6 < 0 )
     {
       DbgPrint("[PTP] %s : ", "PTPFilterCheckAndStartReadLoop");
@@ -1928,7 +1933,7 @@ __int64 __fastcall sub_1400040A4(__int64 a1, __int64 a2, __int64 a3)
       DbgPrint("\n");
       v8 = v6;
       sub_1400019C0((__int64)DeviceObject->DeviceExtension, 2u, 6u, 0x11u, (__int64)&unk_140009190, v8);
-      *(_BYTE *)(a1 + 908) = 0;
+      *(_BYTE *)(a1 + 908) = 0;//pDeviceContext->RequestDataAvailableFlag = FALSE;
     }
   }
   DbgPrint("[PTP] %s : ", "PTPFilterCheckAndStartReadLoop");
@@ -1941,7 +1946,7 @@ __int64 __fastcall sub_1400040A4(__int64 a1, __int64 a2, __int64 a3)
 // 14000A118: using guessed type __int64 qword_14000A118;
 
 //----- (000000014000428C) ----------------------------------------------------
-__int64 __fastcall sub_14000428C(_QWORD *a1, __int64 a2)
+__int64 __fastcall sub_14000428C(_QWORD *a1, __int64 a2)//PTPFilterSendReadRequest(pDeviceContext_a1, CompletionRoutine_a2);
 {
   __int64 v4; // rdx
   int v5; // ebx
@@ -1960,11 +1965,15 @@ __int64 __fastcall sub_14000428C(_QWORD *a1, __int64 a2)
     sub_14000129C((__int64)DeviceObject->DeviceExtension, 5u, 6u, 0xAu, (__int64)&unk_140009190);
   }
   v4 = a1[96];
+  //request_v4=pDeviceContext_a1->Request,
+  // 下面3行为WDF_REQUEST_REUSE_PARAMS reuseParams;    WDF_REQUEST_REUSE_PARAMS_INIT(&reuseParams,WDF_REQUEST_REUSE_NO_FLAGS, STATUS_SUCCESS) 执行结果
+  
   v11 = 0i64;
   v12 = 0;
   v9 = 24i64;
   v10 = 0;
   v5 = (*(__int64 (__fastcall **)(__int64, __int64, __int64 *))(qword_14000A118 + 1992))(qword_14000A110, v4, &v9);
+    //status_v5 =WdfRequestReuse(Request_v4, &reuseParams_v11);
   if ( v5 < 0 )
   {
     DbgPrint("[PTP] %s : ", "PTPFilterSendReadRequest");
@@ -1977,12 +1986,12 @@ LABEL_5:
     goto LABEL_10;
   }
   v5 = (*(__int64 (__fastcall **)(__int64, _QWORD, _QWORD, _QWORD, _QWORD, _QWORD))(qword_14000A118 + 1464))(
-         qword_14000A110,
-         a1[2],
-         a1[96],
-         a1[97],
-         0i64,
-         0i64);
+         qword_14000A110,//status_v7=WdfIoTargetFormatRequestForRead(
+         a1[2],//pDeviceContext_a1->ioTarget,
+         a1[96],//pDeviceContext_a1->Request,
+         a1[97],//pDeviceContext_a1->OutputBuffer
+         0i64,//OutputBufferOffset=0
+         0i64);//DeviceOffset=0
   if ( v5 < 0 )
   {
     DbgPrint("[PTP] %s : ", "PTPFilterSendReadRequest");
@@ -1992,16 +2001,18 @@ LABEL_5:
     goto LABEL_5;
   }
   (*(void (__fastcall **)(__int64, _QWORD, __int64, _QWORD *))(qword_14000A118 + 2080))(qword_14000A110, a1[96], a2, a1);
+  //void WdfRequestSetCompletionRoutine(Request_a1, AmtPtpRequestCompletionRoutine_a2 ,pDeviceContext_a1);
+  
   *(_QWORD *)(*(_QWORD *)((*(__int64 (__fastcall **)(__int64, _QWORD))(qword_14000A118 + 2280))(qword_14000A110, a1[96])
-                        + 184)
-            - 24i64) = a1[3];
+                        + 184)// (PCHAR)(PHID_XFER_PACKET)(WdfRequestWdmGetIrp(Request_a2)->UserBuffer)
+            - 24i64) = a1[3];////=PLIST_ENTRY_a1[3];//结构体的成员
   if ( !(*(unsigned __int8 (__fastcall **)(__int64, _QWORD, _QWORD, _QWORD))(qword_14000A118 + 2024))(
-          qword_14000A110,
+          qword_14000A110,//ret = WdfRequestSend(pDeviceContext_a1->Request, pDeviceContext_a1->ioTarget, &options);
           a1[96],
           a1[2],
           0i64) )
   {
-    v5 = (*(__int64 (__fastcall **)(__int64, _QWORD))(qword_14000A118 + 2032))(qword_14000A110, a1[96]);
+    v5 = (*(__int64 (__fastcall **)(__int64, _QWORD))(qword_14000A118 + 2032))(qword_14000A110, a1[96]);//status_v5 = WdfRequestGetStatus(pDeviceContext_a1->Request);
     DbgPrint("[PTP] %s : ", "PTPFilterSendReadRequest");
     DbgPrint("WdfRequestSend failed 0x%x", (unsigned int)v5);
     DbgPrint("\n");
@@ -2921,7 +2932,7 @@ NTSTATUS __stdcall DriverEntry(_DRIVER_OBJECT *DriverObject, PUNICODE_STRING Reg
   __int64 (*v6)(void); // rax
 
   if ( !DriverObject )
-    return sub_14000D000(0i64, (__int64)RegistryPath);
+    return sub_14000D000(0i64, (__int64)RegistryPath);//return FxDriverEntryWorker(DriverObject_NULL, RegistryPath)
   qword_14000A120 = (__int64)DriverObject;
   DestinationString.Buffer = (PWSTR)&unk_14000A130;
   *(_DWORD *)&DestinationString.Length = 34078720;
@@ -2930,10 +2941,10 @@ NTSTATUS __stdcall DriverEntry(_DRIVER_OBJECT *DriverObject, PUNICODE_STRING Reg
   if ( result >= 0 )
   {
     qword_14000A128 = *(_QWORD *)(qword_14000A118 + 1608);
-    v5 = sub_1400060A8((__int64)&unk_14000A040);
+    v5 = sub_1400060A8((__int64)&unk_14000A040);//status_v5 = FxStubBindClasses(&WdfBindInfo_unk_14000A040);
     if ( v5 < 0
-      || (v5 = sub_14000603C(), v5 < 0)
-      || (v5 = sub_14000D000((__int64)DriverObject, (__int64)RegistryPath), v5 < 0) )
+      || (v5 = sub_14000603C(), v5 < 0)//(status_v5=FxStubInitTypes(),status_v5<0)
+      || (v5 = sub_14000D000((__int64)DriverObject, (__int64)RegistryPath), v5 < 0) )//(v5 = FxDriverEntryWorker(DriverObject, RegistryPath), v5 < 0) )
     {
       sub_140005E88();
       result = v5;
@@ -3715,13 +3726,15 @@ __int64 __fastcall sub_14000C000(__int64 a1)
   DbgPrint("Entry");
   DbgPrint("\n");
   sub_14000129C((__int64)DeviceObject->DeviceExtension, 4u, 2u, 0xAu, (__int64)&unk_140009140);
-  (*(void (__fastcall **)(__int64, __int64))(qword_14000A118 + 1032))(qword_14000A110, v10);
-  (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_14000A118 + 456))(qword_14000A110, v10, 0i64);
+  
+  
+  (*(void (__fastcall **)(__int64, __int64))(qword_14000A118 + 1032))(qword_14000A110, v10);//WdfFdoInitSetFilter(DeviceInit_a1);//经过对比测试排除了WdfPdoInitAllowForwardingRequestToParent(DeviceInit);和WdfDeviceInitSetPowerPageable(DeviceInit);
+  (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_14000A118 + 456))(qword_14000A110, v10, 0i64);//WdfDeviceInitSetIoType(DeviceInit_14,WdfDeviceIoUndefined);
   memset(Dst, 0, 0x90ui64);
-  Dst[5] = (__int64)sub_14000135C;
-  Dst[6] = (__int64)sub_140001810;
+  Dst[5] = (__int64)sub_14000135C;//pnpPowerCallbacks_Dst.EvtDevicePrepareHardware=PTPFilterDevicePrepareHardware;
+  Dst[6] = (__int64)sub_140001810;//pnpPowerCallbacks_Dst.EvtDeviceReleaseHardware= PTPFilterDeviceReleaseHardware;
   LODWORD(Dst[0]) = 144;
-  (*(void (__fastcall **)(__int64, __int64, __int64 *))(qword_14000A118 + 440))(qword_14000A110, v10, Dst);
+  (*(void (__fastcall **)(__int64, __int64, __int64 *))(qword_14000A118 + 440))(qword_14000A110, v10, Dst);//WdfDeviceInitSetPnpPowerEventCallbacks(DeviceInit_14, &pnpPowerCallbacks_Dst);
   memset(v8, 0, 0x38ui64);
   v8[3] = 0x100000001i64;
   v8[6] = off_14000A018;
@@ -3745,8 +3758,8 @@ __int64 __fastcall sub_14000C000(__int64 a1)
     memset(v7, 0, sizeof(v7));
     LODWORD(v7[10]) = -1;
     LODWORD(v7[1]) = 0;
-    v7[5] = sub_1400034B8;
-    v7[3] = sub_1400039F0;
+    v7[5] = sub_1400034B8;//queueConfig_v11..EvtIoDeviceControl = PTPFilterEvtIoDeviceControl;
+    v7[3] = sub_1400039F0;//queueConfig_v11.EvtIoRead = PTPFilterEvtIoRead;
     v7[0] = 0x200000060i64;
     BYTE5(v7[1]) = 1;
     v1 = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD *, _QWORD, char *))(qword_14000A118 + 1216))(
@@ -3765,7 +3778,7 @@ __int64 __fastcall sub_14000C000(__int64 a1)
              v11,
              v7,
              0i64,
-             v3 + 32);
+             v3 + 32);//ResetNotificationQueue
       if ( v1 >= 0 )
       {
         memset((char *)&v7[1] + 4, 0, 0x54ui64);
@@ -3776,23 +3789,23 @@ __int64 __fastcall sub_14000C000(__int64 a1)
                v11,
                v7,
                0i64,
-               v3 + 56);
+               v3 + 56);//ReadReportQueue
         if ( v1 >= 0 )
         {
           sub_140001038((_QWORD *)v3);
           v1 = (*(__int64 (__fastcall **)(__int64, _QWORD, __int64))(qword_14000A118 + 2520))(
                  qword_14000A110,
                  0i64,
-                 v3 + 912);
+                 v3 + 912);//status_v1=WdfSpinLockCreate( NULL, pDeviceContext_v3->ReadLoopSpinLock_912);
           if ( v1 >= 0 )
           {
             v1 = (*(__int64 (__fastcall **)(__int64, _QWORD, __int64))(qword_14000A118 + 2520))(
                    qword_14000A110,
                    0i64,
-                   v3 + 960);
+                   v3 + 960);//status_v1=WdfSpinLockCreate( NULL, pDeviceContext_v3->ProcessedBufferSpinLock_960);
             if ( v1 >= 0 )
             {
-              v1 = (*(__int64 (__fastcall **)(__int64, __int64, void *, _QWORD))(qword_14000A118 + 616))(
+              v1 = (*(__int64 (__fastcall **)(__int64, __int64, void *, _QWORD))(qword_14000A118 + 616))(//Status_v8=WdfDeviceCreateDeviceInterface( 创建接口供上层使用
                      qword_14000A110,
                      v11,
                      &unk_140009100,
@@ -3800,7 +3813,7 @@ __int64 __fastcall sub_14000C000(__int64 a1)
               if ( v1 >= 0 )
               {
                 LOBYTE(v6) = 1;
-                (*(void (__fastcall **)(__int64, __int64, void *, _QWORD, int))(qword_14000A118 + 624))(
+                (*(void (__fastcall **)(__int64, __int64, void *, _QWORD, int))(qword_14000A118 + 624))(//void WdfDeviceSetDeviceInterfaceState(
                   qword_14000A110,
                   v11,
                   &unk_140009100,
@@ -3874,13 +3887,13 @@ LABEL_17:
 // 14000A118: using guessed type __int64 qword_14000A118;
 
 //----- (000000014000C52C) ----------------------------------------------------
-__int64 __fastcall sub_14000C52C(__int64 a1, __int64 a2)
+__int64 __fastcall sub_14000C52C(__int64 a1, __int64 a2)//NTSTATUS PTPFilterEvtDeviceAdd((IN WDFDRIVER Driver_a1, IN PWDFDEVICE_INIT DeviceInit_a2)
 {
   DbgPrint("[PTP] %s : ", "PTPFilterEvtDeviceAdd");
   DbgPrint("Entry");
   DbgPrint("\n");
   sub_14000129C((__int64)DeviceObject->DeviceExtension, 4u, 3u, 0xDu, (__int64)&unk_140009150);
-  LODWORD(a2) = sub_14000C000(a2);
+  LODWORD(a2) = sub_14000C000(a2);//status_v3 = PTPFilterCreateDevice(DeviceInit_a2);
   DbgPrint("[PTP] %s : ", "PTPFilterEvtDeviceAdd");
   DbgPrint("Exit");
   DbgPrint("\n");
@@ -4145,7 +4158,7 @@ __int64 __fastcall sub_14000C894(unsigned __int8 a1, __int64 a2, unsigned int a3
 // 14000A0E8: using guessed type int dword_14000A0E8;
 
 //----- (000000014000D000) ----------------------------------------------------
-__int64 __fastcall sub_14000D000(__int64 a1, __int64 a2)
+__int64 __fastcall sub_14000D000(__int64 a1, __int64 a2)//FxDriverEntryWorker(DriverObject, RegistryPath)
 {
   int v4; // ebx
   __int64 v6; // [rsp+28h] [rbp-70h]
@@ -4167,9 +4180,11 @@ __int64 __fastcall sub_14000D000(__int64 a1, __int64 a2)
   DbgPrint("Entry");
   DbgPrint("\n");
   sub_14000129C((__int64)DeviceObject->DeviceExtension, 4u, 3u, 0xAu, (__int64)&unk_140009150);
+  
+  
   memset(Dst, 0, 0x38ui64);
-  Dst[1] = (__int64)sub_14000C5F0;
-  v7[1] = (__int64)sub_14000C52C;
+  Dst[1] = (__int64)sub_14000C5F0;//attributes_Dst.EvtCleanupCallback=EvtDriverContextCleanup
+  v7[1] = (__int64)sub_14000C52C;//config_v7.EvtDriverDeviceAdd=PTPFilterEvtDeviceAdd_sub_14000C52C;
   LODWORD(Dst[0]) = 56;
   Dst[3] = 0x100000001i64;
   v7[0] = 32i64;
