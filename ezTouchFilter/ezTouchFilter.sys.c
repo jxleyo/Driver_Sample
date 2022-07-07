@@ -276,7 +276,7 @@ const char *__fastcall sub_140001428(unsigned int a1)
   {
     if ( a1 == 720927 )
       return "IOCTL_HID_ACTIVATE_DEVICE";
-    v1 = a1 - 720899;
+    v1 = a1 - 720899;//0xb0003
     if ( !v1 )
       return "IOCTL_HID_GET_DEVICE_DESCRIPTOR";
     v2 = v1 - 4;
@@ -611,37 +611,37 @@ __int64 __fastcall sub_140001F34(__int64 a1, __int64 a2, char a3, char a4, __int
   __int64 v16; // rax
 
   sub_140001BA0((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0x46u, (__int64)&unk_140005110, a1, a2);
-  v9 = sub_140001428(a5);
+  v9 = sub_140001428(a5);//debugprintstring(IoControlCode);
   sub_140001A04((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0x47u, (__int64)&unk_140005110, a3, a4, (__int64)v9);
-  v10 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 1256))(qword_140006110, a1);
-  v11 = (*(__int64 (__fastcall **)(__int64, __int64, void *))(qword_140006118 + 1616))(
+  v10 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 1256))(qword_140006110, a1);//WDFDEVICE Device_v10 = WdfIoQueueGetDevice(Queue_a1);
+  v11 = (*(__int64 (__fastcall **)(__int64, __int64, void *))(qword_140006118 + 1616))(//DeviceContext* DeviceContext_v11 = GetDeviceContext(Device_v10);
           qword_140006110,
           v10,
           off_140006020);
   switch ( (_DWORD)a5 )
   {
-    case 0xB0003:
-      v16 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);
-      sub_1400027A8(a2, v16, v11);
+    case 0xB0003://IOCTL_HID_GET_DEVICE_DESCRIPTOR
+      v16 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);//IoTarget_v16 = WdfDeviceGetIoTarget(Device_v10);
+      sub_1400027A8(a2, v16, v11);////FilterSendControlRequest(Request_a1,  _In_WDFIOTARGET Target_a2, pDeviceContext_a3);
       break;
-    case 0xB0007:
-      v15 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);
-      sub_140002F7C(a2, v15, v11);
+    case 0xB0007://IOCTL_HID_GET_REPORT_DESCRIPTOR
+      v15 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);//IoTarget_v15 = WdfDeviceGetIoTarget(Device_v10);
+      sub_140002F7C(a2, v15, v11);//////FilterSendControlRequest(Request_a1,  _In_WDFIOTARGET Target_a2, pDeviceContext_a3);
       break;
-    case 0xB000B:
-      v14 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);
-      sub_140003328(a2, v14, v11);
+    case 0xB000B://IOCTL_HID_READ_REPORT
+      v14 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);//IoTarget_v14 = WdfDeviceGetIoTarget(Device_v10);
+      sub_140003328(a2, v14, v11);//////FilterSendControlRequest(Request_a1,  _In_WDFIOTARGET Target_a2, pDeviceContext_a3);
       break;
-    case 0xB000F:
-      v13 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);
+    case 0xB000F://IOCTL_HID_WRITE_REPORT
+      v13 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);//IoTarget_v13 = WdfDeviceGetIoTarget(Device_v10);
       sub_140003408(a2, v13);
       break;
     default:
-      v12 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);
-      if ( (_DWORD)a5 == 720935 )
-        sub_1400023DC(a2, v12, v11);
+      v12 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 336))(qword_140006110, v10);//IoTarget_v12= WdfDeviceGetIoTarget(Device_v15);
+      if ( (_DWORD)a5 == 720935 )//IOCTL_HID_GET_DEVICE_ATTRIBUTES
+        sub_1400023DC(a2, v12, v11);////FilterSendControlRequest(Request_a1,  _In_WDFIOTARGET Target_a2, pDeviceContext_a3);
       else
-        sub_14000211C(a2, v12);
+        sub_14000211C(a2, v12);//VOID Filter_DispatchPassThrough(_In_ WDFREQUEST Request,_In_ WDFIOTARGET Target)
       break;
   }
   return sub_140001000((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0x48u, (__int64)&unk_140005110);
@@ -657,24 +657,26 @@ __int64 __fastcall sub_1400020DC(__int64 a1, __int64 a2, int a3)
 }
 
 //----- (000000014000211C) ----------------------------------------------------
-__int64 __fastcall sub_14000211C(__int64 a1, __int64 a2)
+__int64 __fastcall sub_14000211C(__int64 a1, __int64 a2)//VOID Filter_DispatchPassThrough(_In_ WDFREQUEST Request,_In_ WDFIOTARGET Target)
 {
   __int64 result; // rax
   unsigned int v5; // eax
   __int64 v6[2]; // [rsp+30h] [rbp-28h] BYREF
 
   sub_140001000((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0xDu, (__int64)&unk_140005110);
+  
+  //WDF_REQUEST_SEND_OPTIONS_INIT(&options, WDF_REQUEST_SEND_OPTION_SEND_AND_FORGET);//WDF_REQUEST_SEND_OPTION_TIMEOUT  //WDF_REQUEST_SEND_OPTION_SEND_AND_FORGET
   v6[1] = 0i64;
   v6[0] = 0x800000010i64;
   result = (*(__int64 (__fastcall **)(__int64, __int64, __int64, __int64 *))(qword_140006118 + 2024))(
-             qword_140006110,
+             qword_140006110,//ret= WdfRequestSend(_In_WDFREQUEST Request, _In_WDFIOTARGET Target,_In_opt_PWDF_REQUEST_SEND_OPTIONS Options)
              a1,
              a2,
              v6);
   if ( !(_BYTE)result )
   {
-    v5 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);
-    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v5);
+    v5 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);//status_v9 = WdfRequestGetStatus(Request_a1);
+    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v5);///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
   }
   return result;
 }
@@ -729,7 +731,7 @@ __int64 __fastcall sub_1400021EC(__int64 a1, __int64 a2, __int64 a3, _DWORD *a4)
     a4[12] = v9[4] + (v9[5] << 8);
     a4[13] = v9[6] + (v9[7] << 8);
     a4[14] = v9[8] + (v9[9] << 8);
-    (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(
+    (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
       qword_140006110,
       a1,
       *(unsigned int *)(a3 + 8));
@@ -739,7 +741,7 @@ __int64 __fastcall sub_1400021EC(__int64 a1, __int64 a2, __int64 a3, _DWORD *a4)
   {
     v10 = v7;
     sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, 0x1Fu, (__int64)&unk_140005110, v10);
-    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(
+    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
                qword_140006110,
                a1,
                *(unsigned int *)(a3 + 8));
@@ -764,15 +766,15 @@ __int64 __fastcall sub_1400023DC(__int64 a1, __int64 a2, __int64 a3)
     sub_1400021EC,
     a3);
   if ( !(*(unsigned __int8 (__fastcall **)(__int64, __int64, __int64, _QWORD))(qword_140006118 + 2024))(
-          qword_140006110,
+          qword_140006110,//ret= WdfRequestSend(_In_WDFREQUEST Request, _In_WDFIOTARGET Target,_In_opt_PWDF_REQUEST_SEND_OPTIONS Options)
           a1,
           a2,
           0i64) )
   {
-    v6 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);
+    v6 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);//status_v9 = WdfRequestGetStatus(Request_a1);
     v8 = v6;
     sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, 0x1Cu, (__int64)&unk_140005110, v8);
-    (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v6);
+    (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v6);///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
   }
   return sub_140001000((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0x1Du, (__int64)&unk_140005110);
 }
@@ -807,7 +809,7 @@ __int64 __fastcall sub_14000250C(__int64 a1, __int64 a2, __int64 a3, _DWORD *a4)
     v7 = 17;
 LABEL_3:
     sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, v7, (__int64)&unk_140005110, v14);
-    return (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(
+    return (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
              qword_140006110,
              a1,
              *(unsigned int *)(a3 + 8));
@@ -866,30 +868,30 @@ LABEL_3:
 // 140006118: using guessed type __int64 qword_140006118;
 
 //----- (00000001400027A8) ----------------------------------------------------
-__int64 __fastcall sub_1400027A8(__int64 a1, __int64 a2, __int64 a3)
+__int64 __fastcall sub_1400027A8(__int64 a1, __int64 a2, __int64 a3)//FilterSendControlRequest(Request_a1,  _In_WDFIOTARGET Target_a2, pDeviceContext_a3);
 {
   __int64 result; // rax
   unsigned int v7; // ebx
   int v8; // [rsp+28h] [rbp-10h]
 
   sub_140001000((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0xEu, (__int64)&unk_140005110);
-  (*(void (__fastcall **)(__int64, __int64))(qword_140006118 + 2008))(qword_140006110, a1);
+  (*(void (__fastcall **)(__int64, __int64))(qword_140006118 + 2008))(qword_140006110, a1);////void WdfRequestFormatRequestUsingCurrentType(Request_a1);
   (*(void (__fastcall **)(__int64, __int64, __int64 (__fastcall *)(__int64, __int64, __int64, _DWORD *), __int64))(qword_140006118 + 2080))(
-    qword_140006110,
+    qword_140006110,//void WdfRequestSetCompletionRoutine(Request_a1, AmtPtpRequestCompletionRoutine ,pDeviceContext_a3);
     a1,
     sub_14000250C,
     a3);
   result = (*(__int64 (__fastcall **)(__int64, __int64, __int64, _QWORD))(qword_140006118 + 2024))(
-             qword_140006110,
+             qword_140006110,//ret= WdfRequestSend(_In_WDFREQUEST Request, _In_WDFIOTARGET Target,_In_opt_PWDF_REQUEST_SEND_OPTIONS Options)
              a1,
              a2,
              0i64);
   if ( !(_BYTE)result )
   {
-    v7 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);
+    v7 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);//status_v9 = WdfRequestGetStatus(Request_a1);
     v8 = v7;
     sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, 0xFu, (__int64)&unk_140005110, v8);
-    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v7);
+    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v7);///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
   }
   return result;
 }
@@ -965,7 +967,7 @@ __int64 __fastcall sub_1400028B8(__int64 a1, __int64 a2, __int64 a3, __int64 a4)
   if ( *(int *)(v4 + 8) < 0 )
   {
     sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, 0x25u, (__int64)&unk_140005110, 0);
-    return (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(
+    return (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
              qword_140006110,
              v7,
              *(unsigned int *)(v4 + 8));
@@ -1174,7 +1176,7 @@ LABEL_68:
 LABEL_72:
   ExFreePoolWithTag(v10, 0);
 LABEL_73:
-  (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(
+  (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
     qword_140006110,
     v7,
     *(unsigned int *)(v4 + 8));
@@ -1201,16 +1203,16 @@ __int64 __fastcall sub_140002F7C(__int64 a1, __int64 a2, __int64 a3)
     sub_1400028B8,
     a3);
   result = (*(__int64 (__fastcall **)(__int64, __int64, __int64, _QWORD))(qword_140006118 + 2024))(
-             qword_140006110,
+             qword_140006110,///ret= WdfRequestSend(_In_WDFREQUEST Request, _In_WDFIOTARGET Target,_In_opt_PWDF_REQUEST_SEND_OPTIONS Options)
              a1,
              a2,
              0i64);
   if ( !(_BYTE)result )
   {
-    v7 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);
+    v7 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);//status_v9 = WdfRequestGetStatus(Request_a1);
     v8 = v7;
     sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, 0x23u, (__int64)&unk_140005110, v8);
-    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v7);
+    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v7);///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
   }
   return result;
 }
@@ -1293,7 +1295,7 @@ LABEL_3:
     if ( v15 < 0 )
     {
       sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, 0x3Au, (__int64)&unk_140005110, v15);
-      (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(
+      (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
         qword_140006110,
         a1,
         *(unsigned int *)(a3 + 8));
@@ -1305,7 +1307,7 @@ LABEL_3:
     sub_140001000((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0x39u, (__int64)&unk_140005110);
   }
 LABEL_13:
-  (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(
+  (*(void (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
     qword_140006110,
     a1,
     *(unsigned int *)(a3 + 8));
@@ -1330,16 +1332,16 @@ __int64 __fastcall sub_140003328(__int64 a1, __int64 a2, __int64 a3)
     sub_14000305C,
     a3);
   result = (*(__int64 (__fastcall **)(__int64, __int64, __int64, _QWORD))(qword_140006118 + 2024))(
-             qword_140006110,
+             qword_140006110,//ret= WdfRequestSend(_In_WDFREQUEST Request, _In_WDFIOTARGET Target,_In_opt_PWDF_REQUEST_SEND_OPTIONS Options)
              a1,
              a2,
              0i64);
   if ( !(_BYTE)result )
   {
-    v7 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);
+    v7 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2032))(qword_140006110, a1);//status_v9 = WdfRequestGetStatus(Request_a1);
     v8 = v7;
     sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, 0x34u, (__int64)&unk_140005110, v8);
-    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v7);
+    result = (*(__int64 (__fastcall **)(__int64, __int64, _QWORD))(qword_140006118 + 2104))(qword_140006110, a1, v7);///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
   }
   return result;
 }
@@ -1367,9 +1369,9 @@ __int64 __fastcall sub_140003408(__int64 a1, __int64 a2)
   __int64 Dst[5]; // [rsp+50h] [rbp-58h] BYREF
 
   sub_140001000((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0x3Cu, (__int64)&unk_140005110);
-  v4 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2256))(qword_140006110, a1);
-  v5 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 1256))(qword_140006110, v4);
-  v6 = (*(__int64 (__fastcall **)(__int64, __int64, void *))(qword_140006118 + 1616))(
+  v4 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2256))(qword_140006110, a1);//WDFUQUEUE queue_v4=WdfRequestGetIoQueue(request_a1);
+  v5 = (*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 1256))(qword_140006110, v4);////WDFDEVICE Device_v5 = WdfIoQueueGetDevice(Queue_v4);
+  v6 = (*(__int64 (__fastcall **)(__int64, __int64, void *))(qword_140006118 + 1616))(///pDeviceContext_v6 = GetDeviceContext(Device_v5);
          qword_140006110,
          v5,
          off_140006020);
@@ -1386,6 +1388,7 @@ LABEL_8:
   }
   v7 = 0;
   v9 = *(_QWORD *)((*(__int64 (__fastcall **)(__int64, __int64))(qword_140006118 + 2280))(qword_140006110, a1) + 112);
+  //(WdfRequestWdmGetIrp(Request_a1)
   if ( v9 )
   {
     v10 = *(_DWORD *)(v9 + 8);
@@ -1445,7 +1448,7 @@ LABEL_8:
         v12 = 65;
       }
       sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, v12, (__int64)&unk_140005110, -1073741637);
-      sub_14000211C(a1, a2);
+      sub_14000211C(a1, a2);////VOID Filter_DispatchPassThrough(_In_ WDFREQUEST Request,_In_ WDFIOTARGET Target)
       goto LABEL_20;
     }
     v7 = -1073741789;
@@ -1459,7 +1462,7 @@ LABEL_9:
   sub_1400010C0((__int64)DeviceObject->DeviceExtension, 2u, 4u, v8, (__int64)&unk_140005110, v19);
   v11 = v7;
 LABEL_17:
-  (*(void (__fastcall **)(__int64, __int64, __int64))(qword_140006118 + 2104))(qword_140006110, a1, v11);
+  (*(void (__fastcall **)(__int64, __int64, __int64))(qword_140006118 + 2104))(qword_140006110, a1, v11);///status_result= (NTSTATUS *) void WdfRequestComplete(Request_a2, status_v7);???
 LABEL_20:
   sub_140001000((__int64)DeviceObject->DeviceExtension, 4u, 4u, 0x45u, (__int64)&unk_140005110);
   return v7;
@@ -1653,7 +1656,7 @@ __int64 __fastcall sub_140008000(__int64 a1)
   if ( v1 >= 0 )
   {
     v4 = (*(__int64 (__fastcall **)(__int64, __int64, void *))(qword_140006118 + 1616))(
-           qword_140006110,
+           qword_140006110,///pDeviceContext_v4 = GetDeviceContext(Device_a1);
            v10,
            off_140006020);
     *(_DWORD *)(v4 + 20) = 0;
